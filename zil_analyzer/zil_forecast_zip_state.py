@@ -66,7 +66,7 @@ def modify_zips_max_median_price(zips,zip_price_df,max_price):
 				zips_max_median_price.append(z)
 	return zips_max_median_price
 
-	
+final_zips=[]	
 for s in states:
 	df_zip_state = df_zip[df_zip["StateName"].astype(str).str.contains(s)]
 	#print(df_zip_state.head())
@@ -76,8 +76,11 @@ for s in states:
 	state_zips = get_zips_min_population(df_zip_state,min_population)
 	state_min_price_zips = modify_zips_min_median_price(state_zips,zip_price_df,min_median_price)
 	state_max_price_zips = modify_zips_max_median_price(state_zips,zip_price_df,max_median_price)
-	selected_rows=df_zip_state[df_zip_state.RegionName.isin(state_max_price_zips)]
-	print("The selected rows are:",selected_rows.head())
+	final_zips.extend(state_max_price_zips)
+	
+#selected_rows=df_zip_state[df_zip_state.RegionName.isin(state_max_price_zips)]
+selected_rows=df_zip[df_zip.RegionName.isin(final_zips)]
+print("The selected rows are:",selected_rows)
 #Next Plan: 	
 ##1. Write function to return zips
 ##2. Write function to modify zips based on min price
